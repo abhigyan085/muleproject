@@ -1,0 +1,61 @@
+#%RAML 1.0
+title: Calc
+version: 1.0
+protocols:
+  - HTTP
+  - HTTPS
+/ADD:
+  get:
+    queryParameters:
+      number1:
+        required: true
+        type: integer
+        example: 10
+      number2:
+        required: true
+        type: integer
+        example:
+          20
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+                     {
+                       "addition is": 30
+                     }  
+      400:
+        body:
+          application/json:
+            example:
+                     {
+                       "Sum is not correct"
+                     }
+                    
+/SUB:
+  get:
+    queryParameters:
+      number1:
+        required: true
+        type: integer
+        example: 20
+      number2:
+        required: true
+        type: integer
+        example:
+          10
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+                     {
+                       "Substraction is": 10
+                     }  
+      400:
+        body:
+          application/json:
+            example:
+                     {
+                       "Substraction is not correct"
+                     }          

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="b8b0cd3c-6ff6-46c4-9109-1846686afdff" />
+	<flow name="file_operationFlow" doc:id="35b0f7c4-a026-4bbd-a554-1e245bcb3030" >
+		<scheduler doc:name="Scheduler" doc:id="1d0c549c-88b5-4e26-a183-0efd5be3f2a5" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="30" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<file:read doc:name="PatchcsvRead" doc:id="8fcd7059-0a52-4a13-b837-d0bf9390ae12" config-ref="File_Config" path="C:\Users\Abhishek.Pathak\Desktop\Newtest10.csv"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9b6114e3-9644-4489-930b-1e8dc4eec17c" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="6f5d004a-7258-44ec-8f7f-0f04e8ad367a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	bug_no: payload01."Patch Name",
+	app_short_name: payload01.Module,
+	DIRECTORY: payload01.Directory,
+	filename: payload01.Filename,
+	new_version: payload01."New Version",
+	old_version: payload01."Old Version",
+	file_type: payload01."File Type",
+	is_flagged_file: payload01."FLAGGED_FILE "
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="4ad80d80-321f-4a2d-9b6a-ad2021c558a8" message="#[payload]"/>
+	</flow>
+</mule>

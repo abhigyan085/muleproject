@@ -1,0 +1,25 @@
+[
+{
+	"bug_no": "162516",
+	"app_short_name": "BOM",
+	"DIRECTORY": "patch/115/manualsteps",
+	"filename": "ad_apply_patch.xml",
+	"typeid": "upgrade",
+	"new_version": "120.15.12020000.2",
+	"old_version": "120.15.12020000.2",
+	"file_type": "upgrade",
+	"is_flagged_file": "Y"
+}, 
+{
+	"bug_no": "7167163",
+	"app_short_name": "CST",
+	"DIRECTORY": "patch/115/manualsteps",
+	"filename": "ad_apply_patch.xml",
+	"typeid": "upgrade",
+	"new_version": "120.15.12020000.5",
+	"old_version": "120.15.12020000.7",
+	"file_type": "upgrade",
+	"is_flagged_file": "Y"
+}
+
+]

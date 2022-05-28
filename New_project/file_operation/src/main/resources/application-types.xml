@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="inputcsvmetadata" format="csv">
+      <types:shape format="weave" example="examples/Newtest10.csv"><![CDATA[%dw 2.0
+
+type inputcsvmetadata = Array<{|  "Patch Name": String,   Module: String,   Directory: String,   Filename: String,   "Change Type": String,   "New Version": String,   "Old Version": String,   "File Type": String,   "FLAGGED_FILE ": String|}> {"isQuotedString": "false",
+"header": "true",
+"headerLineNumber": "0"}
+
+]]></types:shape>
+      <types:properties>
+        <types:property name="headerLineNumber" value="0"/>
+        <types:property name="header" value="true"/>
+        <types:property name="isQuotedString" value="false"/>
+      </types:properties>
+    </types:type>
+    <types:type name="outputcsvmetadata" format="json">
+      <types:shape format="weave" example="examples/output-2.json"><![CDATA[%dw 2.0
+
+type outputcsvmetadata = Array<{|  bug_no: String,   app_short_name: String,   DIRECTORY: String,   filename: String,   typeid: String,   new_version: String,   old_version: String,   file_type: String,   is_flagged_file: String|}> {"example": "[{\\\"bug_no\\\":\\\"162516\\\",\\\"app_short_name\\\":\\\"BOM\\\",\\\"DIRECTORY\\\":\\\"patch\\/115\\/manualsteps\\\",\\\"filename\\\":\\\"ad_apply_patch.xml\\\",\\\"typeid\\\":\\\"upgrade\\\",\\\"new_version\\\":\\\"120.15.12020000.2\\\",\\\"old_version\\\":\\\"120.15.12020000.2\\\",\\\"file_type\\\":\\\"upgrade\\\",\\\"is_flagged_file\\\":\\\"Y\\\"},{\\\"bug_no\\\":\\\"7167163\\\",\\\"app_short_name\\\":\\\"CST\\\",\\\"DIRECTORY\\\":\\\"patch\\/115\\/manualsteps\\\",\\\"filename\\\":\\\"ad_apply_patch.xml\\\",\\\"typeid\\\":\\\"upgrade\\\",\\\"new_version\\\":\\\"120.15.12020000.5\\\",\\\"old_version\\\":\\\"120.15.12020000.7\\\",\\\"file_type\\\":\\\"upgrade\\\",\\\"is_flagged_file\\\":\\\"Y\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#6f5d004a-7258-44ec-8f7f-0f04e8ad367a">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="inputcsvmetadata"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="outputcsvmetadata"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
