@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="63c24366-ae2e-4157-9109-3681e973d0c2" >
+		<http:listener-connection host="localhost" port="8083" />
+	</http:listener-config>
+	<flow name="asynchflow" doc:id="529f06d5-9fca-4202-8c9b-576895fb944e" >
+		<http:listener doc:name="Listener" doc:id="7b871224-ce91-4bc2-9f11-071bb28cfb85" config-ref="HTTP_Listener_config" path="/asynch"/>
+		<logger level="INFO" doc:name="Logger" doc:id="43873a58-9466-49da-b958-7ec560efd857" message="Start message before asynch bock flow"/>
+		<async doc:name="Async" doc:id="126ce891-467e-48be-8f98-3b1260202ab7" >
+			<logger level="INFO" doc:name="Logger" doc:id="1309c13c-e1c1-432c-9deb-9ae53e915b43" message="Asynch block 1 message"/>
+			<logger level="INFO" doc:name="Logger" doc:id="a5fe9de1-5249-4a89-9662-03c34b159d6f" message="Asynch block 2 message"/>
+			<logger level="INFO" doc:name="Logger" doc:id="9d7f40ab-48d5-4f7e-9097-9b579a027dd5" message="Asynch block 3 message"/>
+		</async>
+		<flow-ref doc:name="Flow Reference" doc:id="067dd074-020d-474e-98b0-1ec7833fcd15" name="test2Flow"/>
+	</flow>
+	<flow name="test2Flow" doc:id="54e7f8a6-1efd-42bb-b448-56ac39310ccf" >
+		<logger level="INFO" doc:name="Logger" doc:id="b5153f34-6bc7-4f68-9726-e64a9ca034bc" message="Final Output"/>
+		<flow-ref doc:name="Flow Reference" doc:id="690933ad-1d89-435c-add4-7360193bf022" name="test2Sub_Flow"/>
+	</flow>
+	<sub-flow name="test2Sub_Flow" doc:id="3e7365f8-233c-4bc7-a719-b9220213a7df" >
+		<logger level="INFO" doc:name="Logger" doc:id="cb43284a-5e88-439f-92c9-9d813d5f7cac" message="#[payload] print net message"/>
+	</sub-flow>
+</mule>

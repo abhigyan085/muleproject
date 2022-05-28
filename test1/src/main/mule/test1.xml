@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f4c6560c-0b92-4171-b603-1ae5d660d6b1" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<flow name="test1Flow" doc:id="1a6afc29-bc66-404c-bf13-a580e4aa683c" >
+		<http:listener doc:name="Listener" doc:id="6822a8d8-a4ea-44c0-89e1-a8fcde1cb40c" config-ref="HTTP_Listener_config" path="/demo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="fe4c38d3-7fe1-4ad9-9961-75dacb77122b" message="Primary message before process"/>
+		<flow-ref doc:name="Flow Reference" doc:id="19fc3d84-c686-415b-a3b1-8819519fd96c" name="test1Sub_Flow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="646c01c6-84f7-440d-ad05-db815d266515" name="privateFlow1"/>
+	</flow>
+	<sub-flow name="test1Sub_Flow" doc:id="35c1c64b-221b-4fc8-b98d-c5363b2817f8" >
+		<logger level="INFO" doc:name="Logger" doc:id="1829fe42-6e8f-4003-a51c-ce9e307f9b62" message="Process this Item in sub flow"/>
+	</sub-flow>
+	<flow name="privateFlow1" doc:id="647f5d5e-85d1-4ac6-bfb4-91386a42378a" >
+		<logger level="INFO" doc:name="Logger" doc:id="0974fa4c-36b4-4060-b149-e1ec5342183d" message="This is private flow message "/>
+	</flow>
+</mule>

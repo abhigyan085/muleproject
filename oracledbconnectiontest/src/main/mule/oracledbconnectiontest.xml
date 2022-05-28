@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3f0239fd-2650-49a8-98fd-ca0caa6bf772" >
+		<http:listener-connection host="localhost" port="8082" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="2e19fd36-a45b-4e6c-9da3-11fe29c0cf3d" />
+	<flow name="oracledbconnectiontestFlow" doc:id="af4130a1-9112-4aba-a9a6-8c6b7db1625b" >
+		<http:listener doc:name="Listener" doc:id="b378d3d4-e35a-42de-a248-2f8307e71f5b" config-ref="HTTP_Listener_config" path="/dbtest"/>
+		<file:read doc:id="c1cfa96d-4ce8-4b2f-9adf-33b7e920f073" config-ref="File_Config" path="C:\Users\Abhishek.Pathak\Desktop\DB_patch_impact.txt"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="8bda24ff-7f3c-4b4f-922e-7e0d2aa5d898" />
+		<ee:transform doc:name="Transform Message" doc:id="bf155707-f1a3-4ba3-baaf-b70f129ff754" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
